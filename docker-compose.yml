@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+    telegram:
+        build: ./telegram
+        container_name: telegram-api-forward-message
+        restart: unless-stopped
+        command: yarn start
+        networks:
+            - telegram-api-forward-networks
+
+    telegram_bd:
+        image: mongo:latest
+        container_name: telegram-api-forwarder-message-db
+        volumes:
+            - mongodb_telegram:/data/db
+        networks:
+            - telegram-api-forward-networks
+
+volumes:
+    mongodb_telegram:
+
+networks:
+    telegram-api-forward-networks:
+        driver: bridge
